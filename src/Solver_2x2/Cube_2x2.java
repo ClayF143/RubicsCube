@@ -1,7 +1,8 @@
 package Solver_2x2;
+
 public class Cube_2x2
 {
-	// colors are represented by integers, 1-6
+	
 	int [][] cube;
 	
 	public Cube_2x2()
@@ -11,8 +12,9 @@ public class Cube_2x2
 	
 	public void reset()
 	{
-		// conceptual order: top, front, right, back, left, bottom
-		// 4 colors are top left, top right, bottom left, bottom right
+		/* colors are represented by integers, 1-6
+		   conceptual order: top, front, right, back, left, bottom
+		   4 numbered colors are top left, top right, bottom left, bottom right */
 		cube = new int [] []   {{1, 1, 1, 1}, 
 								{2, 2, 2, 2},
 								{3, 3, 3, 3},
@@ -33,11 +35,18 @@ public class Cube_2x2
 	
 	public void top_cw()
 	{
+		// first rotate the actual face
 		int topTopLeft = cube[0][0];
 		int topTopRight = cube[0][1];
 		int topBotLeft = cube[0][2];
 		int topBotRight = cube[0][3];
+		cube[0][0] = topBotLeft;
+		cube[0][1] = topTopLeft;
+		cube[0][2] = topBotRight;
+		cube[0][3] = topTopRight;
 		
+		// then rotate the squares sharing an edge with the face
+		// NOT TESTED YET, rotating the face works though
 		int frontTopLeft = cube[1][0];
 		int frontTopRight = cube[1][1];
 		int rightTopLeft = cube[2][0];
@@ -46,16 +55,20 @@ public class Cube_2x2
 		int backTopRight = cube[3][1];
 		int leftTopLeft = cube[4][0];
 		int leftTopRight = cube[4][1];
-		
-		cube[0][0] = topBotLeft;
-		cube[0][1] = topTopLeft;
-		cube[0][2] = topBotRight;
-		cube[0][3] = topTopRight;
+		cube[1][0] = rightTopLeft;
+		cube[1][1] = rightTopRight;
+		cube[2][0] = backTopLeft;
+		cube[2][1] = backTopRight;
+		cube[3][0] = leftTopLeft;
+		cube[3][1] = leftTopRight;
+		cube[4][0] = frontTopLeft;
+		cube[4][1] = frontTopRight;
 		
 	}
 	
 	public void top_ccw()
 	{
+		// rotating counter-clockwise is the same as rotating clockwise 3 times
 		this.top_cw();
 		this.top_cw();
 		this.top_cw();
@@ -124,6 +137,7 @@ public class Cube_2x2
 	
 	public static void main(String[] args)
 	{
+		// tests what I've got so far
 		Cube_2x2 cube = new Cube_2x2();
 		cube.top_cw();
 		cube.print_cube();
