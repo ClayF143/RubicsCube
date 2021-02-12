@@ -36,6 +36,9 @@ public class Cube_2x2
 	public void top_cw()
 	{
 		// first rotate the actual face
+		// should be copy-pastable, replacing the first 'top' in the
+		// variable names and the row index with whatever face you're on
+		// but I'd test it first
 		int topTopLeft = cube[0][0];
 		int topTopRight = cube[0][1];
 		int topBotLeft = cube[0][2];
@@ -68,7 +71,9 @@ public class Cube_2x2
 	
 	public void top_ccw()
 	{
-		// rotating counter-clockwise is the same as rotating clockwise 3 times
+		/* rotating counter-clockwise is the same as rotating clockwise 3 times
+		   if I ever need this to be efficient for some 
+		   reason, I'll change it, but as is it's cleaner and easier */
 		this.top_cw();
 		this.top_cw();
 		this.top_cw();
