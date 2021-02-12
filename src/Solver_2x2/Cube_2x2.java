@@ -3,7 +3,7 @@ package Solver_2x2;
 public class Cube_2x2
 {
 	
-	int [][] cube;
+	private int [][] cube;
 	
 	public Cube_2x2()
 	{
@@ -28,17 +28,29 @@ public class Cube_2x2
 		cube[0][3] = 4;
 	}
 	
-	public void mix()
+	public void randomize(int k)
 	{
 		
+	}
+	
+	public boolean isSolved()
+	{
+		// wip
+		return false;
+	}
+	
+	public Cube_2x2 clone()
+	{
+		// wip
+		return null;
 	}
 	
 	public void top_cw()
 	{
 		// first rotate the actual face
-		// should be copy-pastable, replacing the first 'top' in the
+		// should be kinda copy-pastable, replacing the first 'top' in the
 		// variable names and the row index with whatever face you're on
-		// but I'd test it first
+		// but I don't wanna test it tonight
 		int topTopLeft = cube[0][0];
 		int topTopRight = cube[0][1];
 		int topBotLeft = cube[0][2];
