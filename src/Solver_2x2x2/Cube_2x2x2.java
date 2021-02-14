@@ -35,13 +35,16 @@ public class Cube_2x2x2
 	
 	public boolean isSolved()
 	{
-		// wip
+		/* 	wip
+			will determine if the cube is solved by checking each array
+			in the matrix and making sure each square has the same color */
 		return false;
 	}
 	
 	public Cube_2x2x2 clone()
 	{
-		// wip
+		//  wip
+		//  creates a clone of this object
 		return null;
 	}
 	
