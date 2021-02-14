@@ -1,11 +1,11 @@
-package Solver_2x2;
+package Solver_2x2x2;
 
-public class Cube_2x2
+public class Cube_2x2x2
 {
 	
 	private int [][] cube;
 	
-	public Cube_2x2()
+	public Cube_2x2x2()
 	{
 		this.reset();
 	}
@@ -22,15 +22,15 @@ public class Cube_2x2
 								{5, 5, 5, 5},
 								{6, 6, 6, 6}};
 								
-		// testing stuff
+		/* testing stuff
 		cube[0][1] = 2;
 		cube[0][2] = 3;
-		cube[0][3] = 4;
+		cube[0][3] = 4; */
 	}
 	
 	public void randomize(int k)
 	{
-		
+		// unsolves the cube by turning random faces k times
 	}
 	
 	public boolean isSolved()
@@ -39,7 +39,7 @@ public class Cube_2x2
 		return false;
 	}
 	
-	public Cube_2x2 clone()
+	public Cube_2x2x2 clone()
 	{
 		// wip
 		return null;
@@ -155,7 +155,7 @@ public class Cube_2x2
 	public static void main(String[] args)
 	{
 		// tests what I've got so far
-		Cube_2x2 cube = new Cube_2x2();
+		Cube_2x2x2 cube = new Cube_2x2x2();
 		cube.top_cw();
 		cube.print_cube();
 	}
