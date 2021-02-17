@@ -1,5 +1,7 @@
 package Solver_2x2x2;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Cube_2x2x2
 {
 	
@@ -35,9 +37,7 @@ public class Cube_2x2x2
 	public void randomize(int k)
 	{
 		// unsolves the cube by turning random faces k times
-		/* This will take the input of an int k that will represent the 
-		   number of times the cube will be randomized, then the cube will
-		   be turned these times randomly*/
+		// can't test until the the code for the rotations is done
 		
 		for(int i = 0; i < k; i++)
 		{
@@ -60,6 +60,7 @@ public class Cube_2x2x2
 				case 6: this.down(1);
 					break;
 				default: System.out.println("Error - randomize method");
+			}
 		}
 	}
 	
@@ -119,6 +120,7 @@ public class Cube_2x2x2
 			cube[3][1] = leftTopRight;
 			cube[4][0] = frontTopLeft;
 			cube[4][1] = frontTopRight;
+		}
 		
 	}
 	
@@ -173,7 +175,7 @@ public class Cube_2x2x2
 		}
 	}
 	
-	public void print_cube()
+	public void print()
 	{
 		// This function prints every number in the cube
 		System.out.println("Printing Cube:\n");
@@ -191,7 +193,7 @@ public class Cube_2x2x2
 	{
 		// Stuff for testing
 		Cube_2x2x2 cube = new Cube_2x2x2();
-		cube.top_cw();
-		cube.print_cube();
+		cube.top(1);
+		cube.print();
 	}
 }
