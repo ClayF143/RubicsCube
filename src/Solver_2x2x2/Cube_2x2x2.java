@@ -38,6 +38,29 @@ public class Cube_2x2x2
 		/* This will take the input of an int k that will represent the 
 		   number of times the cube will be randomized, then the cube will
 		   be turned these times randomly*/
+		
+		for(int i = 0; i < k; i++)
+		{
+			// generate a random number between 0 and 6
+			int randomInt = ThreadLocalRandom.current().nextInt(1,7);
+			// testing
+			// System.out.println(randomInt);
+			switch(randomInt)
+			{
+				case 1: this.top(1);
+					break;
+				case 2: this.front(1);
+					break;
+				case 3: this.right(1);
+					break;
+				case 4: this.back(1);
+					break;
+				case 5: this.left(1);
+					break;
+				case 6: this.down(1);
+					break;
+				default: System.out.println("Error - randomize method");
+		}
 	}
 	
 	public boolean isSolved()
@@ -60,97 +83,94 @@ public class Cube_2x2x2
 		return null;
 	}
 	
-	public void top_cw()
+	public void top(int k)
 	{
-		// This function rotates one of the faces clockwise
+		// This function rotates the top face clockwise k times
 		
-		//first rotate the actual face
-		int topTopLeft = cube[0][0];
-		int topTopRight = cube[0][1];
-		int topBotLeft = cube[0][2];
-		int topBotRight = cube[0][3];
-		cube[0][0] = topBotLeft;
-		cube[0][1] = topTopLeft;
-		cube[0][2] = topBotRight;
-		cube[0][3] = topTopRight;
+		// Any integer works, but 5 turns is the same as 1 turn, 6 as 2 etc
+		k = k % 4;
 		
-		// then rotate the squares sharing an edge with the face
-		int frontTopLeft = cube[1][0];
-		int frontTopRight = cube[1][1];
-		int rightTopLeft = cube[2][0];
-		int rightTopRight = cube[2][1];
-		int backTopLeft = cube[3][0];
-		int backTopRight = cube[3][1];
-		int leftTopLeft = cube[4][0];
-		int leftTopRight = cube[4][1];
-		cube[1][0] = rightTopLeft;
-		cube[1][1] = rightTopRight;
-		cube[2][0] = backTopLeft;
-		cube[2][1] = backTopRight;
-		cube[3][0] = leftTopLeft;
-		cube[3][1] = leftTopRight;
-		cube[4][0] = frontTopLeft;
-		cube[4][1] = frontTopRight;
+		for(int i = 0; i < k; i++)
+		{
+			// first rotate the actual face
+			int topTopLeft = cube[0][0];
+			int topTopRight = cube[0][1];
+			int topBotLeft = cube[0][2];
+			int topBotRight = cube[0][3];
+			cube[0][0] = topBotLeft;
+			cube[0][1] = topTopLeft;
+			cube[0][2] = topBotRight;
+			cube[0][3] = topTopRight;
+			
+			// then rotate the squares sharing an edge with the face
+			int frontTopLeft = cube[1][0];
+			int frontTopRight = cube[1][1];
+			int rightTopLeft = cube[2][0];
+			int rightTopRight = cube[2][1];
+			int backTopLeft = cube[3][0];
+			int backTopRight = cube[3][1];
+			int leftTopLeft = cube[4][0];
+			int leftTopRight = cube[4][1];
+			cube[1][0] = rightTopLeft;
+			cube[1][1] = rightTopRight;
+			cube[2][0] = backTopLeft;
+			cube[2][1] = backTopRight;
+			cube[3][0] = leftTopLeft;
+			cube[3][1] = leftTopRight;
+			cube[4][0] = frontTopLeft;
+			cube[4][1] = frontTopRight;
 		
-	}
-	
-	public void top_ccw()
-	{
-		/* rotating counter-clockwise is the same as rotating clockwise 3 
-		   times
-		 */
-		this.top_cw();
-		this.top_cw();
-		this.top_cw();
 	}
 	
 	// Each of the other faces are rotated similarly to the top face
-	public void front_cw()
+	public void front(int k)
 	{
+		k = k % 4;
 		
+		for(int i = 0; i < k; i++)
+		{
+			
+		}
 	}
 	
-	public void front_ccw()
+	public void right(int k)
 	{
-		this.front_cw();
-		this.front_cw();
-		this.front_cw();
-	}
-	
-	public void right_cw()
-	{
+		k = k % 4;
 		
+		for(int i = 0; i < k; i++)
+		{
+			
+		}
 	}
 	
-	public void right_ccw()
+	public void back(int k)
 	{
-		this.right_cw();
-		this.right_cw();
-		this.right_cw();
-	}
-	
-	public void back_cw()
-	{
+		k = k % 4;
 		
+		for(int i = 0; i < k; i++)
+		{
+			
+		}
 	}
 	
-	public void back_ccw()
+	public void left(int k)
 	{
-		this.back_cw();
-		this.back_cw();
-		this.back_cw();
-	}
-	
-	public void left_cw()
-	{
+		k = k % 4;
 		
+		for(int i = 0; i < k; i++)
+		{
+			
+		}
 	}
 	
-	public void left_ccw()
+	public void down(int k)
 	{
-		this.left_cw();
-		this.left_cw();
-		this.left_cw();
+		k = k % 4;
+		
+		for(int i = 0; i < k; i++)
+		{
+			
+		}
 	}
 	
 	public void print_cube()
