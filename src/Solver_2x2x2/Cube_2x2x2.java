@@ -12,13 +12,13 @@ public class Cube_2x2x2
 	
 	public void reset()
 	{
-		/*This function will take the current object of the cube and will
-		  reset it to the solution before it gets randomized again*/
+		/* This function will take the current object of the cube and will
+		   reset it to the solution before it gets randomized again*/
 		/* The cube is represented as a 2-D array with colors represented 
 		   by integers, 1-6 conceptual order: top, front, right, back, left, bottom
 		   4 numbered colors represent the order of top left, top right,
-		    bottom left, bottom right */
-		/*For example: all the 1s indicate red, the 2s indicate white, etc.*/
+		   bottom left, bottom right */
+		/* For example: all the 1s indicate red, the 2s indicate white, etc.*/
 		cube = new int [] []   {{1, 1, 1, 1}, 
 								{2, 2, 2, 2},
 								{3, 3, 3, 3},
@@ -35,35 +35,28 @@ public class Cube_2x2x2
 	public void randomize(int k)
 	{
 		// unsolves the cube by turning random faces k times
-		/*This will take the input of an int k that will represent the 
-		  number of times the cube will be randomized, then the cube will
-		  be turned these times randomly and will be the output of this 
-		  function */
+		/* This will take the input of an int k that will represent the 
+		   number of times the cube will be randomized, then the cube will
+		   be turned these times randomly*/
 	}
 	
 	public boolean isSolved()
 	{
-		/* 	wip
-			will determine if the cube is solved by checking each array
-			in the matrix and making sure each square has the same color */
-		/* this function will check all the faces of the cube or in this case, 
-		   all the arrays in the main array and makes sure they all have
-		   the same number in them which indicates the same color on 
-		   the face. The output will be true or false */
-		/*An example of a false output is if any of the arrays have 2
-		 different integers in it so [1,1,1,2] will return false. It will
-		 return correct when all faces have the same color so [1,1,1,1],
-		 [3,3,3,3], [2,2,2,2], etc
-		 */
+		/* wip
+		will determine if the cube is solved by checking each array
+		in the matrix and making sure each square has the same color
+		An example of a false output is if any of the arrays have 2
+		different integers in it so [1,1,1,2] will return false. It will
+		return correct when all faces have the same color so [1,1,1,1],
+		[3,3,3,3], [2,2,2,2], etc
+		*/
 		return false;
 	}
 	
 	public Cube_2x2x2 clone()
 	{
-		//  wip
-		//  creates a clone of this object and output it
-		// This can be a clone of the solved object after a reset or a 
-		// randomized object after using the randomize function
+		// wip
+		// creates a clone of this object and output it
 		return null;
 	}
 	
@@ -111,8 +104,7 @@ public class Cube_2x2x2
 		this.top_cw();
 	}
 	
-	//The following turning functions will be the same idea
-	//as the above with different indices indicating different faces
+	// Each of the other faces are rotated similarly to the top face
 	public void front_cw()
 	{
 		
@@ -163,7 +155,7 @@ public class Cube_2x2x2
 	
 	public void print_cube()
 	{
-		//This function prints every number in the cube
+		// This function prints every number in the cube
 		System.out.println("Printing Cube:\n");
 		for(int [] face : cube)
 		{
@@ -177,7 +169,7 @@ public class Cube_2x2x2
 	
 	public static void main(String[] args)
 	{
-		// tests what I've got so far
+		// Stuff for testing
 		Cube_2x2x2 cube = new Cube_2x2x2();
 		cube.top_cw();
 		cube.print_cube();
