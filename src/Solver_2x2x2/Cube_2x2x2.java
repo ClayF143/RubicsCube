@@ -1,6 +1,7 @@
 package Solver_2x2x2;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 public class Cube_2x2x2
 {
@@ -29,14 +30,12 @@ public class Cube_2x2x2
 								{4, 4, 4, 4},
 								{5, 5, 5, 5},
 								{6, 6, 6, 6}};
-								
-		// testing stuff
-		cube = new int [] []   {{1,3,1,3}, 
-								{3,4,6,6},
-								{2,2,3,4},
-								{1,5,2,2},
-								{6,6,1,5},
-								{4,4,5,5}};
+	}
+	
+	public void setCube(int [][] newCube)
+	{
+		// This method is mostly just present for testing.
+		cube = newCube;
 	}
 	
 	public void randomize(int k)
@@ -58,17 +57,23 @@ public class Cube_2x2x2
 			// System.out.println(randomInt);
 			switch(randomInt)
 			{
-				case 1: this.top(turns);
+				case 1:
+					this.top(turns);
 					break;
-				case 2: this.front(turns);
+				case 2:
+					this.front(turns);
 					break;
-				case 3: this.right(turns);
+				case 3:
+					this.right(turns);
 					break;
-				case 4: this.back(turns);
+				case 4:
+					this.back(turns);
 					break;
-				case 5: this.left(turns);
+				case 5:
+					this.left(turns);
 					break;
-				case 6: this.down(turns);
+				case 6:
+					this.down(turns);
 					break;
 				default: System.out.println("Error - randomize method");
 			}
@@ -115,7 +120,7 @@ public class Cube_2x2x2
 	 * Starting from the top face, if you want to look at the top, shift the front to be where the bottom face is
 	 * If you want to look at the bottom, shift the front to where the top face is.
 	 * If you want to look at the right, back, or left faces, just rotate horizontally.
-	 * This is important, especially with the bottom and back faces.
+	 * This is important, especially with the bottom and back faces, to ensure consistency.
 	 */
 	
 	public void top(int k)	
@@ -385,13 +390,72 @@ public class Cube_2x2x2
 	
 	public static void main(String[] args)
 	{
-		System.out.println("white 1, red 2, green 3, yellow 4, blue 5, orange 6");
-		// Stuff for testing
+		boolean done = false;
 		Cube_2x2x2 cube = new Cube_2x2x2();
-		Cube_2x2x2 clone = cube.clone();
-		cube.down(1);
-		//cube.printColor();
-		cube.print();
-		cube.printColor();
+		while(!done)
+		{
+			// get the input
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Enter one of the following keywords.\n"
+					+ "'randomize' to randomize\n"
+					+ "'front', 'right', 'back', 'left', 'top', or 'down' to rotate that face clockwise\n"
+					+ "'print' to print the cube\n"
+					+ "and 'solve' if you believe you've solved the cube\n"
+					+ "and 'done' to end the program");
+			String in = scan.nextLine();
+			int turns = 0;
+			if(! (in.equals("print") || in.equals("solve")))
+			{
+				System.out.println("How many rotations would you like?");
+				turns = scan.nextInt();
+			}
+			
+			// use the input
+			switch(in)
+			{
+			case "randomize":
+				cube.randomize(turns);
+				cube.printColor();
+				System.out.println();
+				break;
+			case "front":
+				cube.front(turns);
+				break;
+			case "right":
+				cube.right(turns);
+				break;
+			case "left":
+				cube.left(turns);
+				break;
+			case "top":
+				cube.top(turns);
+				break;
+			case "down":
+				cube.down(turns);
+				break;
+			case "print":
+				cube.printColor();
+				System.out.println("\n");
+				break;
+			case "solve":
+				if(cube.isSolved())
+					System.out.println("Congratulations, you have solved the cube!");
+				else
+					System.out.println("Sorry, the cube isn't solved yet");
+				break;
+			case "done":
+				done = true;
+				break;
+			default:
+				System.out.println("Looks like you mispelled something, try again.");
+				break;
+			}
+			System.out.println("");
+		}
 	}
 }
+
+
+
+
+
