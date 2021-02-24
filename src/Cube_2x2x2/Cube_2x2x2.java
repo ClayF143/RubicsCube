@@ -40,21 +40,13 @@ public class Cube_2x2x2
 	
 	public void randomize(int k)
 	{
-		// unsolves the cube by turning random faces k times
-		// can't test until the the code for the rotations is done
-		
+		// scrambles the cube by turning random faces k times
 		for(int i = 0; i < k; i++)
 		{
-			//System.out.println("Randomizing ");
-			//System.out.println(i);
-			// generate a random number between 0 and 6, and one for how many turns to make
+			// generate a random number between 0 and 6
 			int randomInt = ThreadLocalRandom.current().nextInt(1,7);
-			int turns = ThreadLocalRandom.current().nextInt(1,4);
+			int turns = 1;  // int turns = ThreadLocalRandom.current().nextInt(1,4);   This would randomize the turn between clockwise, ccw, or 180.
 			
-			//System.out.println("randomint - " + String.valueOf(randomInt));
-			//System.out.println("turns - " + String.valueOf(turns));
-			// testing
-			// System.out.println(randomInt);
 			switch(randomInt)
 			{
 				case 1:
@@ -82,7 +74,7 @@ public class Cube_2x2x2
 	
 	public boolean isSolved()
 	{
-		/* wip
+		/*
 		will determine if the cube is solved by checking each array
 		in the matrix and making sure each square has the same color
 		An example of a false output is if any of the arrays have 2
@@ -105,7 +97,7 @@ public class Cube_2x2x2
 	public Cube_2x2x2 clone()
 	{
 		// wip
-		// creates a clone of this object and output it
+		// creates a clone of this object and outputs it
 		
 		Cube_2x2x2 clone = new Cube_2x2x2();
 		for(int i = 0; i < this.cube.length; i++)
@@ -405,7 +397,7 @@ public class Cube_2x2x2
 			String in = scan.nextLine();
 			
 			int turns = 0;
-			if(! (in.equals("print") || in.equals("solve")))
+			if(! (in.equals("print") || in.equals("solve") || in.contentEquals("done")))
 			{
 				System.out.println("How many rotations would you like?");
 				turns = scan.nextInt();
