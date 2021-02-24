@@ -1,4 +1,4 @@
-package Solver_2x2x2;
+package Cube_2x2x2;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Scanner;
@@ -403,6 +403,7 @@ public class Cube_2x2x2
 					+ "and 'solve' if you believe you've solved the cube\n"
 					+ "and 'done' to end the program");
 			String in = scan.nextLine();
+			
 			int turns = 0;
 			if(! (in.equals("print") || in.equals("solve")))
 			{
