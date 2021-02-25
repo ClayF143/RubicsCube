@@ -23,7 +23,7 @@ public class Cube_2x2x2
 		   bottom left, bottom right */
 		/* For example: all the 1s indicate red, the 2s indicate white, etc.*/
 		
-		// white 1, red 2, green 3, yellow 4, blue 5, orange 6
+		// white 1, red 2, blue 3, orange 4, green 5, yello 6
 		cube = new int [] []   {{1, 1, 1, 1}, 
 								{2, 2, 2, 2},
 								{3, 3, 3, 3},
@@ -363,16 +363,16 @@ public class Cube_2x2x2
 					System.out.print("Red    ");
 					break;
 				case 3:
-					System.out.print("Green  ");
+					System.out.print("Blue  ");
 					break;
 				case 4:
-					System.out.print("Yellow ");
+					System.out.print("Orange ");
 					break;
 				case 5:
-					System.out.print("Blue   ");
+					System.out.print("Green   ");
 					break;
 				case 6:
-					System.out.print("Orange ");
+					System.out.print("Yellow ");
 					break;
 				}
 			}
