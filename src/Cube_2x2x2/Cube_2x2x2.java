@@ -426,6 +426,9 @@ public class Cube_2x2x2
 			case "down":
 				cube.down(turns);
 				break;
+			case "back":
+				cube.back(turns);
+				break;
 			case "print":
 				cube.printColor();
 				System.out.println("\n");
