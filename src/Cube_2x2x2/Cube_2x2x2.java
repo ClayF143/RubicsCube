@@ -23,7 +23,7 @@ public class Cube_2x2x2
 		   bottom left, bottom right */
 		/* For example: all the 1s indicate red, the 2s indicate white, etc.*/
 		
-		// white 1, red 2, blue 3, orange 4, green 5, yello 6
+		// white 1, red 2, blue 3, orange 4, green 5, yellow 6
 		cube = new int [] []   {{1, 1, 1, 1}, 
 								{2, 2, 2, 2},
 								{3, 3, 3, 3},
@@ -397,7 +397,7 @@ public class Cube_2x2x2
 			String in = scan.nextLine();
 			
 			int turns = 0;
-			if(! (in.equals("print") || in.equals("solve") || in.contentEquals("done")))
+			if(! (in.equals("print") || in.equals("solve") || in.equals("done")))
 			{
 				System.out.println("How many rotations would you like?");
 				turns = scan.nextInt();
