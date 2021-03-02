@@ -379,6 +379,7 @@ public class Cube_2x2x2
 			System.out.print("\n");
 		}
 	}
+
 	
 	public static void main(String[] args)
 	{
@@ -417,6 +418,9 @@ public class Cube_2x2x2
 			case "right":
 				cube.right(turns);
 				break;
+			case "back":
+				cube.back(turns);
+				break;
 			case "left":
 				cube.left(turns);
 				break;
@@ -425,9 +429,6 @@ public class Cube_2x2x2
 				break;
 			case "down":
 				cube.down(turns);
-				break;
-			case "back":
-				cube.back(turns);
 				break;
 			case "print":
 				cube.printColor();
