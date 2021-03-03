@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Cube_2x2x2
 {
 	
-	private int [][] cube;
+	public int [][] cube;
 	
 	public Cube_2x2x2()
 	{
