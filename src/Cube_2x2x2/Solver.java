@@ -11,6 +11,11 @@ public class Solver
 		root = new Node(startState, null, null);
 	}
 	
+	public Node createNode(Cube_2x2x2 state)
+	{
+		return new Node(state,null,null);
+	}
+	
 	public void IDAStar()
 	{
 		System.out.println("Solving Cube, please standby.");
@@ -155,15 +160,16 @@ public class Solver
 				System.out.println(turn);
 		}
 	}
-	private void testHeuristic()
+	private static void testHeuristic()
 	{
+		Solver s = new Solver(new Cube_2x2x2());
 		for(int k = 1; k < 20; k++)
 		{
-			for(int i = 0; i < 100; i++)
+			for(int i = 0; i < 1000; i++)
 			{
 				Cube_2x2x2 cube = new Cube_2x2x2();
 				cube.randomize(k);
-				Node n = new Node(cube, null, null);
+				Node n = s.createNode(cube);
 				System.out.println(n.h);
 				System.out.println(k);
 				System.out.println();
@@ -173,7 +179,19 @@ public class Solver
 
 					return;
 				}
+				if(n.h > 2)
+				{
+					// never happens <.< this heuristic is a terrible guesser
+					System.out.println("Woah");
+					System.out.println(n.h);
+					return;
+				}
 			}
 		}
+	}
+	
+	public static void main(String [] args)
+	{
+		testHeuristic();
 	}
 }
