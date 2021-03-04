@@ -166,7 +166,7 @@ public class Solver
 				System.out.println(turn);
 		}
 	}
-	private static void testHeuristic()
+	public void testHeuristic()
 	{
 		Solver s = new Solver(new Cube_2x2x2());
 		for(int k = 1; k < 20; k++)
@@ -195,9 +195,5 @@ public class Solver
 			}
 		}
 	}
-	
-	public static void main(String [] args)
-	{
-		testHeuristic();
-	}
+
 }
