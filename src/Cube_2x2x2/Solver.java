@@ -1,5 +1,6 @@
 package Cube_2x2x2;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Solver
@@ -8,7 +9,7 @@ public class Solver
 	
 	public Solver(Cube_2x2x2 startState)
 	{
-		root = new Node(startState, null, null);
+		root = new Node(startState, null, "");
 	}
 	
 	public Node createNode(Cube_2x2x2 state)
@@ -16,7 +17,7 @@ public class Solver
 		return new Node(state,null,null);
 	}
 	
-	public void IDAStar()
+	public Node IDAStar()
 	{
 		System.out.println("Solving Cube, please standby.");
 		System.out.println("The last of these numbers is proportional to how easy the solution is.");
@@ -40,7 +41,7 @@ public class Solver
 					// Once a solution is found, print out that solution and end the search
 					System.out.println("Solution Path:");
 					n.printPath();
-					return;
+					return n;
 				}
 				
 				// when exploring a node that isn't the solution, 
@@ -82,8 +83,58 @@ public class Solver
 		public Node[] generateChildren()
 		{
 			// wip
-			// return an array of the children
-			return null;
+			// returns an array of the children
+			// we're locking the top, front, right cubelet in place, so don't rotate those three faces
+			int childrenLength = 5, i = 0;
+			if(turn.equals(""))
+				childrenLength = 6;
+			Node [] children = new Node [childrenLength];
+			
+			Node n;
+			Cube_2x2x2 childState;
+			if( !turn.equals("bottomCCW"))
+			{
+				childState = state.clone();
+				childState.down(1);
+				children[i] = new Node(childState, this, "bottomCW");
+				i++;
+			}
+			if( !turn.equals("bottomCW"))
+			{
+				childState = state.clone();
+				childState.down(3);
+				children[i] = new Node(childState, this, "bottomCCW");
+				i++;
+			}
+			if( !turn.equals("backCCW"))
+			{
+				childState = state.clone();
+				childState.back(1);
+				children[i] = new Node(childState, this, "backCW");
+				i++;
+			}
+			if( !turn.equals("backCW"))
+			{
+				childState = state.clone();
+				childState.back(3);
+				children[i] = new Node(childState, this, "backCCW");
+				i++;
+			}
+			if( !turn.equals("leftCCW"))
+			{
+				childState = state.clone();
+				childState.left(1);
+				children[i] = new Node(childState, this, "leftCW");
+				i++;
+			}
+			if( !turn.equals("leftCW"))
+			{
+				childState = state.clone();
+				childState.left(3);
+				children[i] = new Node(childState, this, "leftCCW");
+				i++;
+			}
+			return children;
 		}
 		
 		// heuristic function
@@ -160,6 +211,7 @@ public class Solver
 				System.out.println(turn);
 		}
 	}
+	
 	private static void testHeuristic()
 	{
 		Solver s = new Solver(new Cube_2x2x2());
@@ -176,22 +228,52 @@ public class Solver
 				if(n.h > k)
 				{
 					System.out.println("ERROR: Either the Heuristic or the Heuristic test is wrong");
-
 					return;
 				}
 				if(n.h > 2)
 				{
-					// never happens <.< this heuristic is a terrible guesser
-					System.out.println("Woah");
-					System.out.println(n.h);
+					System.out.println("This never happens, there are a maximum of 21 squares that can be wrong, 21/8 < 3");
 					return;
 				}
 			}
 		}
 	}
 	
+	private static int [][] testIDAStar()
+	{
+		int maxTurns = 20;
+		int solvesPerIteration = 10;
+		
+		int [][] data = new int [maxTurns - 1][solvesPerIteration];
+		for(int k = 1; k < maxTurns; k++)
+		{
+			for(int j = 0; j < solvesPerIteration; j++)
+			{
+				Cube_2x2x2 state = new Cube_2x2x2();
+				state.randomize(k);
+				Solver s = new Solver(state);
+				Node n = s.IDAStar();
+				if(n.g > k)
+				{
+					System.out.println("ERROR: Finding non-optimal solutions.");
+					System.out.println(Integer.valueOf(n.g)+" " + Integer.valueOf(k));
+					return null;
+				}
+				data[k][j] = n.g;
+			}
+		}
+		for(int [] threshold: data)
+		{
+			for(int solve: threshold)
+				System.out.print(System.out.printf("%4d", solve));
+			System.out.println();
+		}
+		return data;
+	}
+	
 	public static void main(String [] args)
 	{
-		testHeuristic();
+		testIDAStar();
+		
 	}
 }
