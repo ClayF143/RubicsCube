@@ -250,7 +250,7 @@ public class Solver
 		int solvesPerIteration = 10;
 		
 		int [][] data = new int [maxTurns - 1][solvesPerIteration];
-		for(int k = 1; k < maxTurns; k++)
+		for(int k = 1; k < maxTurns - 1; k++)
 		{
 			for(int j = 0; j < solvesPerIteration; j++)
 			{
@@ -267,18 +267,32 @@ public class Solver
 				data[k][j] = n.g;
 			}
 		}
-		for(int [] threshold: data)
+		for(int row = 0; row < data.length; row++)
 		{
-			for(int solve: threshold)
-				System.out.print(System.out.printf("%4d", solve));
-			System.out.println();
+			for(int col = 0; col < data[row].length; col++)
+			{
+				System.out.printf("%4d", data[row][col]);
+		    }
+		    System.out.println();
 		}
 		return data;
 	}
 	
 	public static void main(String [] args)
 	{
-		testIDAStar();
+		int[][] data = testIDAStar();
+		System.out.println("Printing Average Path Length per the number of turns taken to randomize the cube");
+		for(int [] arr: data)
+		{
+			int sum = 0;
+			for(int val: arr)
+			{
+				sum += val;
+			}
+			int average = sum / arr.length;
+			System.out.printf("%4d", average);
+		}
+		
 		
 	}
 }
