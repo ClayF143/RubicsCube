@@ -1,6 +1,5 @@
 package Cube_2x2x2;
 
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Solver
@@ -56,6 +55,7 @@ public class Solver
 		}
 	}
 	
+	//private Node class to manage and create new nodes for states
 	private class Node implements Comparable<Node>
 	{
 		public Node parent;
@@ -137,8 +137,12 @@ public class Solver
 			return children;
 		}
 		
-		// heuristic function
-		// hamming distance
+		/*heuristic function (Hamming Distance): Giving a fixed corner in the
+		  cube and assuming all 3 squares on this corner are in place, we 
+		  will count the number of out of place squares on these sides. The 
+		  number of these square will be divided by 8 since this is how many
+		  squares we move every 1 move. This heuristic is admissible
+		 */
 		public void setH()
 		{
 			// wip
@@ -150,7 +154,8 @@ public class Solver
 			int leftColor = solvedOppositeColor(rightColor);
 			int bottomColor = solvedOppositeColor(topColor);
 			
-			int[] orientedColors = new int[] {topColor, frontColor, rightColor, backColor, leftColor, bottomColor};
+			int[] orientedColors = new int[] {topColor, frontColor, 
+					rightColor, backColor, leftColor, bottomColor};
 			
 			// count out of place squares
 			for(int faceIndex = 0; faceIndex < 6; faceIndex++)

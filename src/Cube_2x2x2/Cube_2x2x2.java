@@ -383,8 +383,10 @@ public class Cube_2x2x2
 	
 	public static void main(String[] args)
 	{
-		boolean done = false;
 		Cube_2x2x2 cube = new Cube_2x2x2();
+		Solver s= new Solver(cube);
+		s.testHeuristic();
+		boolean done = false;
 		while(!done)
 		{
 			// get the input
