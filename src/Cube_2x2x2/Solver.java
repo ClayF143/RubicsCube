@@ -1,14 +1,16 @@
 package Cube_2x2x2;
 
-import java.util.PriorityQueue;
+import java.util.PriorityQueue; 
 
 public class Solver
 {
 	private Node root;
+	private int exploredNodes; // just here for testing
 	
 	public Solver(Cube_2x2x2 startState)
 	{
 		root = new Node(startState, null, "");
+		exploredNodes = 0;
 	}
 	
 	public Node createNode(Cube_2x2x2 state)
@@ -18,13 +20,9 @@ public class Solver
 	
 	public Node IDAStar()
 	{
-		System.out.println("Solving Cube, please standby.");
-		System.out.println("The last of these numbers is proportional to how easy the solution is.");
-		System.out.println("Generally, the harder the solution, the longer the computation time.");
-		
-		// this is talking about the threshold that's printed at the bottom of the loop
+		// Non-recursive version, uses a priority queue.
 		PriorityQueue<Node> frontier = new PriorityQueue<Node>();
-		int threshold = root.h; // this equals root.f, fyi
+		int threshold = (int) (root.h); // this equals root.f, fyi
 		
 		// this outer loop is present so that the threshold can be increased over as many iterations as required
 		while(true)
@@ -34,15 +32,14 @@ public class Solver
 			while(!frontier.isEmpty())
 			{
 				Node n = frontier.poll();
-				
 				if(n.isSolved())
 				{
 					// Once a solution is found, print out that solution and end the search
 					System.out.println("Solution Path:");
 					n.printPath();
+					
 					return n;
 				}
-				
 				// when exploring a node that isn't the solution, 
 				// expand that node's children and add them to the frontier
 				Node [] children = n.generateChildren();
@@ -50,18 +47,51 @@ public class Solver
 					if(child.f < threshold)
 						frontier.add(child);
 			}
-			System.out.println(threshold);
-			threshold++;
-		}
+		}	
 	}
 	
-	//private Node class to manage and create new nodes for states
+	public Node IDAStar_R()
+	{
+		// Recursive version, much less space is used
+		int threshold = (int) (root.h);
+		Node result = null;
+		while(result == null)
+		{
+			
+			result = IDAStar_R_Helper(root, threshold);
+			threshold++;
+		}
+		return result;
+	}
+	
+	private Node IDAStar_R_Helper(Node node, int threshold)
+	{
+		exploredNodes = exploredNodes + 1;
+		if(node.isSolved())
+			return node;
+		
+		Node [] children = node.generateChildren();
+		for(Node child: children)
+		{
+			if(child.f <= threshold)
+			{
+				Node result = IDAStar_R_Helper(child, threshold);
+				if(result != null)
+				{
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
+	// private Node class to manage and create new nodes for states
 	private class Node implements Comparable<Node>
 	{
 		public Node parent;
 		public String turn;
 		public Cube_2x2x2 state;
-		public int h, g, f;
+		public double h, g, f;
 		
 		public Node(Cube_2x2x2 state, Node parent, String turn)
 		{
@@ -82,7 +112,6 @@ public class Solver
 		
 		public Node[] generateChildren()
 		{
-			// wip
 			// returns an array of the children
 			// we're locking the top, front, right cubelet in place, so don't rotate those three faces
 			int childrenLength = 5, i = 0;
@@ -206,7 +235,7 @@ public class Solver
 		@Override
 		public int compareTo(Node n)
 		{
-			return this.f - n.f;
+			return (int) (this.f - n.f);
 		}
 		
 		public void printPath()
@@ -217,7 +246,7 @@ public class Solver
 		}
 	}
 	
-	private static void testHeuristic()
+	protected static void testHeuristic()
 	{
 		Solver s = new Solver(new Cube_2x2x2());
 		for(int k = 1; k < 20; k++)
@@ -244,55 +273,111 @@ public class Solver
 		}
 	}
 	
-	private static int [][] testIDAStar()
+	private static void testIDAStarR()
 	{
 		int maxTurns = 20;
-		int solvesPerIteration = 10;
+		int solvesPerIteration = 5;
 		
-		int [][] data = new int [maxTurns - 1][solvesPerIteration];
-		for(int k = 1; k < maxTurns - 1; k++)
+		// where to record data
+		long [][] timeData = new long [maxTurns][solvesPerIteration];
+		int [][] exploredData = new int [maxTurns][solvesPerIteration];
+		int [][] pathData = new int [maxTurns][solvesPerIteration];
+		Node [][] solutionData = new Node [maxTurns][solvesPerIteration];
+		
+		for(int k = 0; k < maxTurns; k++)
 		{
 			for(int j = 0; j < solvesPerIteration; j++)
 			{
 				Cube_2x2x2 state = new Cube_2x2x2();
 				state.randomize(k);
 				Solver s = new Solver(state);
-				Node n = s.IDAStar();
-				if(n.g > k)
-				{
-					System.out.println("ERROR: Finding non-optimal solutions.");
-					System.out.println(Integer.valueOf(n.g)+" " + Integer.valueOf(k));
-					return null;
-				}
-				data[k][j] = n.g;
+				
+				long start = System.currentTimeMillis();
+				Node node = s.IDAStar_R();
+				long stop = System.currentTimeMillis();
+				
+				timeData[k][j] = stop - start;
+				pathData[k][j] = (int) node.g;
+				exploredData[k][j] = s.exploredNodes;
+				solutionData[k][j] = node;
 			}
 		}
-		for(int row = 0; row < data.length; row++)
-		{
-			for(int col = 0; col < data[row].length; col++)
-			{
-				System.out.printf("%4d", data[row][col]);
-		    }
-		    System.out.println();
-		}
-		return data;
+		System.out.println("Number of turns in randomization is the row index, 0 - " + String.valueOf(maxTurns) +
+				", with " + String.valueOf(solvesPerIteration) + " test cases each.\n");
+		System.out.println("Milliseconds needed to calculate solution.");
+		printLongMatrix(timeData);
+		System.out.println("\nNumber of turns in each solution.");
+		printIntMatrix(pathData);
+		System.out.println("\nNumber of nodes explored.");
+		printIntMatrix(exploredData);
+		System.out.println("\nAverage time needed per turns in randomization.");
+		calcAverage(timeData);
+		System.out.println("\nAverage path per number of turns.");
+		calcAverage(pathData);
+		System.out.println("\nAverage nodes explored per number of turns.");
+		calcAverage(exploredData);
+	}
+	
+	// methods to print a matrix and to find and print the average of each row.
+	public static double [] calcAverage(int [][] matrix)
+	{
+		double [] result = new double [matrix.length];
+	    for (int row = 0; row < matrix.length; row++) {
+	    	int sum = 0;
+	    	double res = 0;
+	        for (int col = 0; col < matrix[row].length; col++) {
+	            sum+=matrix[row][col];
+	        }
+	        result[row] = (double)(sum) / matrix[0].length;
+	    }
+	    for(double res: result)
+	    	System.out.print(Double.valueOf(res) + " ");
+	    System.out.println();
+	    return result;
+	}
+	
+	public static double [] calcAverage(long [][] matrix)
+	{
+		double [] result = new double [matrix.length];
+	    for (int row = 0; row < matrix.length; row++) {
+	    	int sum = 0;
+	    	double res = 0;
+	        for (int col = 0; col < matrix[row].length; col++) {
+	            sum+=matrix[row][col];
+	        }
+	        result[row] = (double)(sum) / matrix[0].length;
+	    }
+	    for(double res: result)
+	    	System.out.print(Double.valueOf(res) + " ");
+	    System.out.println();
+	    return result;
+	}
+	
+	public static void printIntMatrix(int[][] matrix) {
+		System.out.println();
+	    for (int row = 0; row < matrix.length; row++) {
+	        for (int col = 0; col < matrix[row].length; col++) {
+	            System.out.printf("%4d", matrix[row][col]);
+	        }
+	        System.out.println();
+	    }
+	}
+	
+	public static void printLongMatrix(long[][] matrix) {
+		System.out.println();
+	    for (int row = 0; row < matrix.length; row++) {
+	        for (int col = 0; col < matrix[row].length; col++) {
+	            System.out.printf("%4d", matrix[row][col]);
+	        }
+	        System.out.println();
+	    }
 	}
 	
 	public static void main(String [] args)
 	{
-		int[][] data = testIDAStar();
-		System.out.println("Printing Average Path Length per the number of turns taken to randomize the cube");
-		for(int [] arr: data)
-		{
-			int sum = 0;
-			for(int val: arr)
-			{
-				sum += val;
-			}
-			int average = sum / arr.length;
-			System.out.printf("%4d", average);
-		}
-		
+		Solver s = new Solver(new Cube_2x2x2());
+		s.testIDAStarR();
+		System.out.println("done"); // it takes a bit so it's nice to know that it actually finished
 		
 	}
 }
