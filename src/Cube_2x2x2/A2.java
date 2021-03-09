@@ -2,12 +2,12 @@ package Cube_2x2x2;
 
 import java.util.PriorityQueue; 
 
-public class Solver
+public class A2
 {
 	private Node root;
 	private int exploredNodes; // just here for testing
 	
-	public Solver(Cube_2x2x2 startState)
+	public A2(Cube_2x2x2 startState)
 	{
 		root = new Node(startState, null, "");
 		exploredNodes = 0;
@@ -18,6 +18,8 @@ public class Solver
 		return new Node(state,null,null);
 	}
 	
+	// DON'T USE THIS VERSION IT RUNS OUT OF MEMORY AND DOESN'T COLLECT DATA.
+	// THERE'S A RECURSIVE ONE BELOW IT.
 	public Node IDAStar()
 	{
 		// Non-recursive version, uses a priority queue.
@@ -242,13 +244,13 @@ public class Solver
 		{
 			if(parent != null)
 				parent.printPath();
-				System.out.println(turn);
+			System.out.println(turn);
 		}
 	}
 	
 	protected static void testHeuristic()
 	{
-		Solver s = new Solver(new Cube_2x2x2());
+		A2 s = new A2(new Cube_2x2x2());
 		for(int k = 1; k < 20; k++)
 		{
 			for(int i = 0; i < 1000; i++)
@@ -276,7 +278,7 @@ public class Solver
 	private static void testIDAStarR()
 	{
 		int maxTurns = 20;
-		int solvesPerIteration = 5;
+		int solvesPerIteration = 10;
 		
 		// where to record data
 		long [][] timeData = new long [maxTurns][solvesPerIteration];
@@ -290,7 +292,7 @@ public class Solver
 			{
 				Cube_2x2x2 state = new Cube_2x2x2();
 				state.randomize(k);
-				Solver s = new Solver(state);
+				A2 s = new A2(state);
 				
 				long start = System.currentTimeMillis();
 				Node node = s.IDAStar_R();
@@ -302,6 +304,8 @@ public class Solver
 				solutionData[k][j] = node;
 			}
 		}
+		
+		
 		System.out.println("Number of turns in randomization is the row index, 0 - " + String.valueOf(maxTurns) +
 				", with " + String.valueOf(solvesPerIteration) + " test cases each.\n");
 		System.out.println("Milliseconds needed to calculate solution.");
@@ -375,7 +379,7 @@ public class Solver
 	
 	public static void main(String [] args)
 	{
-		Solver s = new Solver(new Cube_2x2x2());
+		A2 s = new A2(new Cube_2x2x2());
 		s.testIDAStarR();
 		System.out.println("done"); // it takes a bit so it's nice to know that it actually finished
 		

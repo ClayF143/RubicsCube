@@ -384,7 +384,7 @@ public class Cube_2x2x2
 	public static void main(String[] args)
 	{
 		Cube_2x2x2 cube = new Cube_2x2x2();
-		Solver s= new Solver(cube);
+		A2 s= new A2(cube);
 		s.testHeuristic();
 		boolean done = false;
 		while(!done)
